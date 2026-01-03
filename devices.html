@@ -3,202 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Устройства | KomorOS</title>
-    
+    <title>Устройства — KomorOS</title>
     <style>
+        /* CSS дублируется из index для работы без внешних файлов */
         :root {
-            --primary-color: #007bff;
-            --secondary-color: #28a745;
-            --bg-main: #f4f7f9;
-            --bg-card: #ffffff;
-            --text-dark: #343a40;
-            --font-family: 'Roboto', 'Arial', sans-serif;
-            --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.08);
+            --bg: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent: #00d2ff;
+            --accent-grad: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            --text: #ffffff;
+            --text-dim: #a0a0a0;
+            --font: 'Inter', -apple-system, system-ui, sans-serif;
         }
 
-        body {
-            font-family: var(--font-family);
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-main);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
+        body { font-family: var(--font); background: var(--bg); color: var(--text); margin: 0; }
 
-        /* Шапка с Навигацией */
         .header {
-            background-color: var(--bg-card);
-            color: var(--text-dark);
-            padding: 15px 0;
-            border-bottom: 3px solid var(--primary-color);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            text-align: center;
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(5, 5, 5, 0.8); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--card-border);
         }
-        
+
         .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1000px;
-            margin: auto;
-            padding: 0 20px;
+            max-width: 1100px; margin: 0 auto; padding: 15px 20px;
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        .header h1 {
-            font-size: 1.8em;
-            margin: 0;
-            color: var(--primary-color);
-        }
-        
-        .header h1 a {
-            text-decoration: none;
-            color: inherit;
-        }
+        .logo-group { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-img { width: 35px; height: 35px; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
+        .logo-group h1 { font-size: 1.3rem; margin: 0; color: var(--text); }
+        .nav a { color: var(--text-dim); text-decoration: none; margin-left: 25px; transition: 0.3s; }
+        .nav a:hover { color: var(--accent); }
 
-        .nav a {
-            color: var(--text-dark);
-            text-decoration: none;
-            margin-left: 20px;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
+        .container { max-width: 1100px; margin: 120px auto 60px; padding: 0 20px; }
 
-        .nav a:hover {
-            color: var(--primary-color);
-        }
+        .page-title { text-align: center; margin-bottom: 50px; }
+        .page-title h2 { font-size: 2.5rem; margin-bottom: 10px; }
+        .page-title p { color: var(--text-dim); }
 
-        .logo {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 15px;
-            object-fit: cover;
-        }
-        
-        .logo-title {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Общий контейнер */
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            padding: 20px;
-            padding-top: 40px; 
-        }
-        
-        .main-title {
-            text-align: center;
-            margin-bottom: 40px;
-            color: var(--primary-color);
-        }
-
-        /* Сетка Устройств (Flexbox) */
+        /* Сетка устройств */
         .device-grid {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 25px;
-            justify-content: center;
         }
 
         .device-card {
-            background-color: var(--bg-card);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: var(--shadow-light);
-            flex-basis: 45%; /* По два устройства в ряд */
-            min-width: 300px; /* Минимальная ширина для мобильных */
-            text-align: center;
-            border-top: 4px solid var(--primary-color);
-        }
-        
-        .device-card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            border: 1px solid #e9ecef;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .device-card h3 {
-            color: var(--text-dark);
-            margin-top: 0;
-            font-size: 1.5em;
+        .device-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid var(--card-border);
         }
 
-        .download-button {
-            display: inline-block;
-            background-color: var(--secondary-color);
+        .device-card h3 { margin: 0 0 10px; font-size: 1.6rem; }
+        .device-desc { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 20px; flex-grow: 1; }
+
+        .btn-download {
+            background: var(--accent-grad);
             color: white;
-            padding: 12px 25px;
-            text-decoration: none;
-            border-radius: 50px;
-            margin-top: 15px;
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-
-        .download-button:hover {
-            background-color: #1e7e34;
-            transform: translateY(-2px);
-        }
-        
-        /* Инструкции */
-        .instructions {
-            text-align: left;
-            margin-top: 20px;
-            border-top: 1px solid #e9ecef;
-            padding-top: 15px;
-        }
-        
-        .instructions ol {
-            padding-left: 20px;
-        }
-        
-        .instructions code {
-            background-color: #f0f0f0;
-            padding: 2px 5px;
-            border-radius: 3px;
-            color: var(--text-dark);
-        }
-
-        /* Футер */
-        .footer {
             text-align: center;
-            padding: 20px;
-            background-color: #e9ecef;
-            color: #6c757d;
-            font-size: 0.9em;
-            margin-top: 40px;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
-        
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            .nav a {
-                margin: 0 10px;
-            }
-            .logo-title {
-                margin-bottom: 10px;
-            }
-            .device-card {
-                flex-basis: 100%; /* Один столбец на мобильных */
-                min-width: auto;
-            }
+
+        /* Инструкция */
+        .steps {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 0.85rem;
         }
+
+        .steps h4 { margin: 0 0 10px; color: var(--accent); font-size: 0.9rem; }
+        .steps ol { margin: 0; padding-left: 20px; color: var(--text-dim); }
+        .steps code { background: #222; padding: 2px 5px; border-radius: 4px; color: #eee; }
+
+        .footer { text-align: center; padding: 40px; border-top: 1px solid var(--card-border); color: var(--text-dim); }
     </style>
 </head>
 <body>
 
     <header class="header">
         <div class="header-content">
-            <div class="logo-title">
-                <img src="logo.png" alt="KomorOS Logo" class="logo">
-                <h1><a href="index.html">KomorOS</a></h1>
-            </div>
+            <a href="index.html" class="logo-group">
+                <img src="logo.png" alt="Logo" class="logo-img">
+                <h1>KomorOS</h1>
+            </a>
             <nav class="nav">
                 <a href="index.html">Главная</a>
                 <a href="devices.html">Устройства</a>
@@ -207,54 +112,49 @@
     </header>
 
     <div class="container">
-        <h2 class="main-title">Поддерживаемые Устройства</h2>
-        
+        <div class="page-title">
+            <h2>Поддерживаемые устройства</h2>
+            <p>Выберите вашу модель для загрузки актуальной сборки</p>
+        </div>
+
         <div class="device-grid">
-            
             <div class="device-card">
+                <img src="Smartphone/InfinixSmart8.jpg" alt="Infinix Smart 8" class="device-img">
                 <h3>Infinix Smart 8</h3>
-                <img src="Smartphone/InfinixSmart8.jpg" alt="Фото Infinix Smart 8">
+                <p class="device-desc">Стабильная сборка с полной поддержкой аппаратного ускорения и оптимизацией ядра под Tiger T606.</p>
+                <a href="URL_ДЛЯ_INFINIX_SMART_8" class="btn-download">Скачать ROM</a>
                 
-                <p>Оптимизированная сборка KomorOS для максимальной производительности на Infinix Smart 8.</p>
-                <a href="URL_ДЛЯ_INFINIX_SMART_8" class="download-button">Скачать ROM</a>
-                
-                <div class="instructions">
-                    <h4>Инструкция по установке:</h4>
+                <div class="steps">
+                    <h4>Как установить:</h4>
                     <ol>
-                        <li>Скачайте ROM и установите ADB/Fastboot.</li>
-                        <li>Перезагрузите в режиме **FastbootD**.</li>
-                        <li>Прошейте: <code>fastboot flash system KomorOS.img</code></li>
-                        <li>Сброс данных: <code>fastboot reboot recovery</code>, затем **Factory Reset / Wipe Data**.</li>
-                        <li>Перезагрузка.</li>
+                        <li>Вход в <code>FastbootD</code></li>
+                        <li>Шейте: <code>fastboot flash system KomorOS.img</code></li>
+                        <li>Wipe Data в Recovery</li>
                     </ol>
                 </div>
             </div>
 
             <div class="device-card">
+                <img src="Smartphone/InfinixHOT30i.jpg" alt="Infinix HOT 30i" class="device-img">
                 <h3>Infinix HOT 30i</h3>
-                <img src="Smartphone/InfinixHOT30i.jpg" alt="Фото Infinix HOT 30i">
+                <p class="device-desc">Максимальная производительность для HOT 30i. Исправлены проблемы с троттлингом и улучшена камера.</p>
+                <a href="URL_ДЛЯ_INFINIX_HOT_30i" class="btn-download">Скачать ROM</a>
                 
-                <p>Увеличьте скорость работы и время автономной работы Infinix HOT 30i с KomorOS.</p>
-                <a href="URL_ДЛЯ_INFINIX_HOT_30i" class="download-button">Скачать ROM</a>
-                
-                <div class="instructions">
-                    <h4>Инструкция по установке:</h4>
+                <div class="steps">
+                    <h4>Как установить:</h4>
                     <ol>
-                        <li>Скачайте ROM и установите ADB/Fastboot.</li>
-                        <li>Перезагрузите в режиме **FastbootD**.</li>
-                        <li>Прошейте: <code>fastboot flash system KomorOS.img</code></li>
-                        <li>Сброс данных: <code>fastboot reboot recovery</code>, затем **Factory Reset / Wipe Data**.</li>
-                        <li>Перезагрузка.</li>
+                        <li>Вход в <code>FastbootD</code></li>
+                        <li>Шейте: <code>fastboot flash system KomorOS.img</code></li>
+                        <li>Wipe Data в Recovery</li>
                     </ol>
                 </div>
             </div>
-            
         </div>
     </div>
 
     <footer class="footer">
-        <p>&copy; 2025 KomorOS. Все права защищены. <a href="https://github.com/ВАШ_НИК/ВАШ_РЕПОЗИТОРИЙ" style="color: inherit;">GitHub</a></p>
-    </div>
+        <p>&copy; 2026 KomorOS. Только для личного использования.</p>
+    </footer>
 
 </body>
 </html>
